@@ -38,7 +38,7 @@ module spdif_decode (
     LEN_MIN      = CLK_IN_FREQ * 2 / (4*BMC_FREQ) - 2,
     LEN_01       = CLK_IN_FREQ * 3 / (4*BMC_FREQ),
     LEN_PREAMBLE = CLK_IN_FREQ * 5 / (4*BMC_FREQ),
-    LEN_MAX      = CLK_IN_FREQ * 6 / (4*BMC_FREQ) + 2;
+    LEN_MAX      = CLK_IN_FREQ * 6 / (4*BMC_FREQ) + 1;
 
   reg spdif_buf;
   reg spdif_delayed;
@@ -70,8 +70,8 @@ module spdif_decode (
     if (spdif_changed) begin
       bit_count_w1 <= bit_counter >= LEN_MIN && bit_counter < LEN_01;
       bit_count_w2 <= bit_counter >= LEN_01 && bit_counter < LEN_PREAMBLE;
-      bit_count_w3 <= bit_counter >= LEN_PREAMBLE && bit_counter <= LEN_MAX;
-      bit_count_fault <= bit_counter > LEN_MAX;
+      bit_count_w3 <= bit_counter >= LEN_PREAMBLE && bit_counter < LEN_MAX;
+      bit_count_fault <= bit_counter >= LEN_MAX;
     end
   end
 

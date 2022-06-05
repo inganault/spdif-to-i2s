@@ -75,15 +75,22 @@ module top (
   // SPDIF INPUT ------------------------------
 
   reg   spdif;
+  /*
+    SPDIF is buffered at SB_IO, spdif, and in spdif_decode.
+    So, it is triple buffered.
+  */
 
+  wire  spdif_raw;
   SB_IO #(
     .PIN_TYPE(6'b000000), // Registered input
     .PULLUP(1'b0)
   ) io_pin_23 (
     .PACKAGE_PIN(gpio_23),
     .INPUT_CLK(clk_384),
-    .D_IN_0(spdif)
+    .D_IN_0(spdif_raw)
   );
+  always @(posedge clk_384)
+    spdif <= spdif_raw;
 
   wire [23:0] sample_left;
   wire [23:0] sample_right;
