@@ -41,7 +41,7 @@ run: build/top.bin
 
 .PHONY: flash
 flash: build/top.bin
-	iceprog -S -d i:0x0403:0x6014 $<
+	iceprog -d i:0x0403:0x6014 $<
 # 	iceprog -d i:0x0403:0xE014 $<
 
 .PHONY: clean
