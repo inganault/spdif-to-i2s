@@ -15,10 +15,10 @@ module top (
 
   // CLOCKS ------------------------------
 
-  wire  clk_12m;
-  wire  clk_pll;
-  wire  clk_384;
-  wire  clk_bclk;
+  wire clk_12m;
+  wire clk_pll;
+  wire clk_384;
+  wire clk_bclk;
   wire bclk_strobe;
 
   SB_IO #(
@@ -40,7 +40,7 @@ module top (
    * Requested output frequency:  192.000 MHz
    * Achieved output frequency:   192.000 MHz
    */
-  wire  locked;
+  wire locked;
   SB_PLL40_CORE #(
                 .FEEDBACK_PATH("SIMPLE"),
                 .DIVR(4'b0000),         // DIVR =  0
@@ -80,7 +80,7 @@ module top (
     So, it is triple buffered.
   */
 
-  wire  spdif_raw;
+  wire spdif_raw;
   SB_IO #(
     .PIN_TYPE(6'b000000), // Registered input
     .PULLUP(1'b0)
@@ -110,7 +110,6 @@ module top (
   reg [23:0] sample_mix;
   reg spdif_write_mixed;
 
-  initial sample_mix = 0;
   always @(posedge clk_384) begin
     if (spdif_write)
       sample_mix <= ({sample_left[23],sample_left} + {sample_right[23],sample_right}) >>> 1;
@@ -159,9 +158,9 @@ module top (
 
   // I2S ------------------------------
 
-  wire  i2s_lrclk;
-  wire  i2s_bclk;
-  wire  i2s_data;
+  wire i2s_lrclk;
+  wire i2s_bclk;
+  wire i2s_data;
 
   i2s_tx_16 i2s_tx(
     .clk(clk_384),
