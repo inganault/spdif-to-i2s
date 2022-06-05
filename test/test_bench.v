@@ -43,14 +43,19 @@ module tb;
     .spdif(spdif)
     );
 
-  // i2s_tx i2s_tx(
-  //   .bclk(clk),
-  //   .sample_left(24'b10101010_11111111_10101010),
-  //   .sample_right(24'b0)
-  //   // .next_sample(),
-  //   // .lrclk(i2s_lrclk),
-  //   // .data(i2s_data),
-  //   );
+  wire clk_bclk;
+  clkdiv25 clk_bclk_divider (
+    .clk_in(clk),
+    .clk_out(clk_bclk),
+    .clk_out_strobe(bclk_strobe)
+    );
+
+  i2s_tx_16 i2s_tx(
+    .clk(clk),
+    .strobe(bclk_strobe),
+    .sample_left(16'b10101010_11111111),
+    .sample_right(16'b0)
+    );
 
   initial begin
     $monitor("t=%3d\n",$time);

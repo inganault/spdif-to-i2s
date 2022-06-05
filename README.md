@@ -9,3 +9,5 @@ Top.v
                                 |          27| DATA        +-----------+
                                 +------------+
 ```
+
+Use about 3mA for gateware at 38.4MHz
