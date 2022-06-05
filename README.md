@@ -1,7 +1,9 @@
 # S/PDIF to I2S on iCE40UP5K
-Convert S/PDIF to I2S. Toy project without extensive testing.
+Convert S/PDIF to I2S in verilog. Build with yosys + nextpnr.
+It's a toy project without extensive testing.
+
 ```
-Top.v
+Testing Hardware
                                 +------------+
  TOSLINK   +---------+  S/PDIF  | UPduino v3 |
 ---------> | PLR-135 | -------->|23        47| LRCLK       +-----------+
