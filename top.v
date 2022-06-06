@@ -8,9 +8,9 @@ module top (
   output wire gpio_26,
   output wire gpio_27,
   // Status
-  output wire led_red  , // Red
-  output wire led_blue , // Blue
-  output wire led_green  // Green
+  output wire led_red,  // Red
+  output wire led_blue, // Blue
+  output wire led_green // Green
 );
 
   // CLOCKS ------------------------------
@@ -74,7 +74,7 @@ module top (
 
   // SPDIF INPUT ------------------------------
 
-  reg   spdif;
+  reg spdif;
   /*
     SPDIF is buffered at SB_IO, spdif, and in spdif_decode.
     So, it is triple buffered.
@@ -92,8 +92,8 @@ module top (
   always @(posedge clk_384)
     spdif <= spdif_raw;
 
-  wire [23:0] sample_left;
-  wire [23:0] sample_right;
+  wire signed [23:0] sample_left;
+  wire signed [23:0] sample_right;
   wire spdif_write;
   wire spdif_fault;
   spdif_decode spdif_decode(
@@ -107,12 +107,13 @@ module top (
 
   // SIGNAL PROCESSING ------------------------------
 
-  reg [23:0] sample_mix;
+  reg signed [23:0] sample_mix;
   reg spdif_write_mixed;
 
   always @(posedge clk_384) begin
     if (spdif_write)
-      sample_mix <= ({sample_left[23],sample_left} + {sample_right[23],sample_right}) >>> 1;
+      // Sign extend
+      sample_mix <= ({sample_left[23],sample_left} + {sample_right[23],sample_right}) >> 1;
       // sample_mix <= sample_left;
     else
       sample_mix <= sample_mix;
@@ -203,9 +204,9 @@ module top (
   initial led_green_hold = 0;
   always @(posedge clk_384) begin
     if (spdif_write)
-      led_green_hold <= 4095;
+      led_green_hold <= 12'd4095;
     else if (led_green_hold > 0)
-      led_green_hold <= led_green_hold -1;
+      led_green_hold <= led_green_hold - 1;
     else
       led_green_hold <= 0;
   end

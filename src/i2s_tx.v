@@ -22,7 +22,7 @@ module i2s_tx_16 (
     div = 0;
   always @(posedge clk)
     if(strobe)
-      div <= div+1;
+      div <= div + 1;
 
   // LR Clock
   initial lrclk = 1;
