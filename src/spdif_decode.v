@@ -30,11 +30,11 @@ module spdif_decode (
   output wire sample_ready,
   output reg fault
 );
-  localparam integer
+  localparam
     CLK_IN_FREQ = 38400000,
     BMC_FREQ    = 3072000;
 
-  localparam integer
+  localparam
     LEN_MIN      = CLK_IN_FREQ * 2 / (4*BMC_FREQ) - 2,
     LEN_01       = CLK_IN_FREQ * 3 / (4*BMC_FREQ),
     LEN_PREAMBLE = CLK_IN_FREQ * 5 / (4*BMC_FREQ),
@@ -79,7 +79,7 @@ module spdif_decode (
 
   // ======= stage 1->2 {found_edge, bit_count_*} ===========
 
-  localparam integer
+  localparam
     SYM_IDLE  = 0,
     SYM_PREAM = 1,
     SYM_X1 = 2,
@@ -91,7 +91,7 @@ module spdif_decode (
     SYM_BMC0 = 8,
     SYM_BMC1 = 9;
 
-  reg[3:0] symbol_fsm;
+  integer symbol_fsm;
   initial symbol_fsm = SYM_IDLE;
   always @(posedge clk) begin
     if (found_edge)

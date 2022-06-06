@@ -12,8 +12,8 @@ module fifo16x3 (
   output wire empty,
   output wire full
 );
-  localparam integer AWIDTH = 2;
-  localparam integer ASIZE = (1<<AWIDTH);
+  localparam AWIDTH = 2;
+  localparam ASIZE = (1<<AWIDTH);
 
   reg[AWIDTH-1:0] head;
   reg[AWIDTH-1:0] tail;
@@ -52,7 +52,7 @@ module fifo16x3 (
   end
 
   // TODO: change full & empty to register
-  assign full = ((head + 1)&(ASIZE-1)) == (tail&(ASIZE-1));
+  assign full = head + 1'b1 == tail;
 
   assign empty = head == tail;
 
